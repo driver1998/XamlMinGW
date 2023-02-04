@@ -7,13 +7,9 @@
 #include <functional>
 
 using namespace winrt;
-
-namespace winrt
-{
-    using namespace winrt::Windows::Foundation;
-    using namespace winrt::Windows::UI::Xaml::Data;    
-    using namespace winrt::Windows::UI::Xaml::Interop;
-}
+using namespace winrt::Windows::Foundation;
+using namespace winrt::Windows::UI::Xaml::Data;
+using namespace winrt::Windows::UI::Xaml::Interop;
 
 struct CustomPropertyMetaData
 {

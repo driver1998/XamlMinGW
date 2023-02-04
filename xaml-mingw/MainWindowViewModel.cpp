@@ -1,5 +1,6 @@
 #include "MainWindowViewModel.h"
 #include "CustomProperty.h"
+#include "SimpleCommand.h"
 
 #include <string>
 
@@ -11,11 +12,11 @@ namespace winrt::XamlMinGW::implementation
 {
     MainWindowViewModel::MainWindowViewModel()
     {
-        m_greetingCommand = winrt::make<SimpleCommand>([this](IInspectable parameter) {            
+        m_greetingCommand = winrt::make<SimpleCommand>([this](IInspectable parameter) {
             std::wstring str;
             str += L"Hello, ";
             str += this->UserName().c_str();
-            this->Message(str.c_str());            
+            this->Message(str.c_str());
         });
     }
     hstring MainWindowViewModel::Message()
@@ -54,10 +55,36 @@ namespace winrt::XamlMinGW::implementation
     /* ICustomPropertyProvider */
     ICustomProperty MainWindowViewModel::GetCustomProperty(hstring const& name)
     {
-        ICustomProperty prop = nullptr;
-        if (name == L"Message")
+        if (m_propertyMap.contains(name))
         {
-            return winrt::make<CustomProperty>(
+            return m_propertyMap[name];
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+    ICustomProperty MainWindowViewModel::GetIndexedProperty(hstring const& name, TypeName const& type)
+    {
+        throw hresult_not_implemented();
+    }
+    hstring MainWindowViewModel::GetStringRepresentation()
+    {
+        return L"XamlMinGW.MainWindowViewModel";
+    }
+    TypeName MainWindowViewModel::Type()
+    {
+        return TypeName {
+            .Name = L"XamlMinGW.MainWindowViewModel",
+            .Kind = TypeKind::Metadata
+        };
+    }
+
+    std::map<hstring, ICustomProperty> MainWindowViewModel::m_propertyMap
+    {
+        {
+            L"Message",
+            winrt::make<CustomProperty>(
                 CustomPropertyMetaData {
                     .CanRead = true,
                     .CanWrite = true,
@@ -75,11 +102,11 @@ namespace winrt::XamlMinGW::implementation
                         obj.as<MainWindowViewModel>()->Message(winrt::unbox_value<winrt::hstring>(value));
                     }
                 }
-            );
-        }
-        else if (name == L"UserName")
+            )
+        },
         {
-            return winrt::make<CustomProperty>(
+            L"UserName",
+            winrt::make<CustomProperty>(
                 CustomPropertyMetaData {
                     .CanRead = true,
                     .CanWrite = true,
@@ -97,11 +124,11 @@ namespace winrt::XamlMinGW::implementation
                         obj.as<MainWindowViewModel>()->UserName(winrt::unbox_value<winrt::hstring>(value));
                     }
                 }
-            );
-        } 
-        else if (name == L"GreetingCommand")
+            )
+        },
         {
-            return winrt::make<CustomProperty>(
+            L"GreetingCommand",
+            winrt::make<CustomProperty>(
                 CustomPropertyMetaData {
                     .CanRead = true,
                     .CanWrite = false,
@@ -115,24 +142,7 @@ namespace winrt::XamlMinGW::implementation
                         return obj.as<MainWindowViewModel>()->GreetingCommand();
                     }
                 }
-            );
+            )
         }
-
-        return nullptr;
-    }
-    ICustomProperty MainWindowViewModel::GetIndexedProperty(hstring const& name, TypeName const& type)
-    {
-        throw hresult_not_implemented();
-    }
-    hstring MainWindowViewModel::GetStringRepresentation()
-    {
-        return L"XamlMinGW.MainWindowViewModel";
-    }
-    TypeName MainWindowViewModel::Type()
-    {
-        return TypeName {
-            .Name = L"XamlMinGW.MainWindowViewModel",
-            .Kind = TypeKind::Custom
-        };
-    }
+    };
 }

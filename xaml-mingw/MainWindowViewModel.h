@@ -1,7 +1,6 @@
 #pragma once
 #include "XamlMinGW/MainWindowViewModel.g.h"
-
-#include "SimpleCommand.h"
+#include <winrt/Windows.UI.Xaml.Input.h>
 
 namespace winrt::XamlMinGW::implementation
 {
@@ -25,6 +24,7 @@ namespace winrt::XamlMinGW::implementation
         hstring m_message;
         hstring m_userName;
         winrt::event<winrt::Windows::UI::Xaml::Data::PropertyChangedEventHandler> m_propertyChangedEvent;
-        ICommand m_greetingCommand;
+        winrt::Windows::UI::Xaml::Input::ICommand m_greetingCommand;
+        static std::map<hstring, winrt::Windows::UI::Xaml::Data::ICustomProperty> m_propertyMap;
     };
 }

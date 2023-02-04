@@ -3,12 +3,15 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Controls.h>
+#include <winrt/Windows.UI.Xaml.Controls.Primitives.h>
 
 #include "MainWindowView.h"
 #include "MainWindowViewModel.h"
 
 using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::UI::Xaml;
+using namespace winrt::Windows::UI::Xaml::Controls;
 
 namespace winrt::XamlMinGW::implementation
 {
@@ -25,5 +28,22 @@ namespace winrt::XamlMinGW::implementation
         auto viewModel = winrt::make<winrt::XamlMinGW::implementation::MainWindowViewModel>();
         viewModel.UserName(L"MinGW");
         DataContext(viewModel);
+
+        auto btn2 = this->FindName(L"btn2").as<Button>();
+        if (btn2)
+        {
+            btn2.Click([](IInspectable const& sender, RoutedEventArgs const& args) -> IAsyncOperation<IInspectable> {
+                ContentDialog dialog;
+                dialog.Title(winrt::box_value(L"About"));
+                dialog.Content(winrt::box_value(L"MinGW XAML Islands Demo"));
+                dialog.CloseButtonText(L"OK");
+
+                auto btn = sender.try_as<Button>();
+                dialog.XamlRoot(btn.XamlRoot());
+
+                co_await dialog.ShowAsync();
+                co_return nullptr;
+            });
+        }
     }
 }
