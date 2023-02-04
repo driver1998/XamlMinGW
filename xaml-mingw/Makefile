@@ -1,6 +1,7 @@
 CXXFLAGS=-std=c++20 -march=core2
 INCLUDES=-Icppwinrt -Iinclude
 LIBS=-lole32 -loleaut32
+LDFLAGS=-mwindows -static
 
 all: xaml-mingw.exe
 
@@ -31,7 +32,7 @@ app.res: app.rc app.manifest
 	windres app.rc -o app.res
 
 xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o module.g.o app.res
-	clang++ $^ ${LIBS} -o $@
+	clang++ $^ ${LIBS} ${LDFLAGS} -o $@
 
 clean:
 	rm -rf *.exe *.winmd *.o *.res cppwinrt cppwinrt-headers
