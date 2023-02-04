@@ -1,0 +1,7 @@
+*.res
+*.o
+*.exe
+
+xaml-mingw/*.winmd
+xaml-mingw/cppwinrt
+xaml-mingw/cppwinrt-headers

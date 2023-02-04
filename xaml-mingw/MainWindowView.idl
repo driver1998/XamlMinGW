@@ -1,0 +1,7 @@
+namespace XamlMinGW
+{    
+    [default_interface]
+    runtimeclass MainWindowView : Windows.UI.Xaml.Controls.UserControl
+    {        
+    }
+}

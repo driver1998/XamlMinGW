@@ -1,0 +1,8 @@
+import "objidl.idl";
+
+[object, uuid(3cbcf1bf-2f76-4e9c-96ab-e84b37972554), local]
+interface IDesktopWindowXamlSourceNative : IUnknown
+{
+  HRESULT AttachToWindow(HWND parentWnd);
+  [propget] HRESULT WindowHandle([out, retval] HWND* hwnd);
+}
