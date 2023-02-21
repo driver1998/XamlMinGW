@@ -40,10 +40,14 @@ LRESULT onCreate(HWND hwnd, CREATESTRUCTW* cs) {
             sender.Content().as<Control>().Focus(FocusState::Programmatic);
         });
 
+    HWND hwndXaml;
+    xamlSourceNative->get_WindowHandle(&hwndXaml);
+    SetFocus(hwndXaml);
+
     return 0;
 }
 
-LRESULT onResize(WORD type, WORD width, WORD height) {
+LRESULT onResize(HWND hwnd, WORD type, WORD width, WORD height) {
     if (_xamlSource) {
         auto xamlSourceNative = _xamlSource.as<IDesktopWindowXamlSourceNative>();
         if (xamlSourceNative) {
@@ -56,12 +60,26 @@ LRESULT onResize(WORD type, WORD width, WORD height) {
     return 0;
 }
 
+
+LRESULT onDpiChanged(HWND hwnd, WORD dpi, RECT *rectNewWindow) {
+    SetWindowPos(hwnd,
+        NULL,
+        rectNewWindow->left,
+        rectNewWindow->top,
+        rectNewWindow->right - rectNewWindow->left,
+        rectNewWindow->bottom - rectNewWindow->top,
+        SWP_NOZORDER | SWP_NOACTIVATE);
+    return 0;
+}
+
 LRESULT CALLBACK mainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_CREATE:
         return onCreate(hwnd, (CREATESTRUCTW*)lParam);
     case WM_SIZE:
-        return onResize(wParam, LOWORD(lParam), HIWORD(lParam));
+        return onResize(hwnd, wParam, LOWORD(lParam), HIWORD(lParam));
+    case WM_DPICHANGED:
+        return onDpiChanged(hwnd, HIWORD(wParam), (RECT*)lParam);
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
