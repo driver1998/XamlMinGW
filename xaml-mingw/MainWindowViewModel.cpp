@@ -2,6 +2,7 @@
 #include "CustomProperty.h"
 #include "SimpleCommand.h"
 
+#include <cwchar>
 #include <string>
 
 using namespace winrt::Windows::UI::Xaml::Data;
@@ -55,6 +56,7 @@ namespace winrt::XamlMinGW::implementation
     /* ICustomPropertyProvider */
     ICustomProperty MainWindowViewModel::GetCustomProperty(hstring const& name)
     {
+        _putws(name.c_str());
         if (m_propertyMap.contains(name))
         {
             return m_propertyMap[name];
@@ -76,7 +78,7 @@ namespace winrt::XamlMinGW::implementation
     {
         return TypeName {
             .Name = L"XamlMinGW.MainWindowViewModel",
-            .Kind = TypeKind::Metadata
+            .Kind = TypeKind::Custom
         };
     }
 

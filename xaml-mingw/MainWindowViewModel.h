@@ -1,10 +1,11 @@
 #pragma once
-#include "XamlMinGW/MainWindowViewModel.g.h"
-#include <winrt/Windows.UI.Xaml.Input.h>
+#include <winrt/base.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.UI.Xaml.Data.h>
 
 namespace winrt::XamlMinGW::implementation
 {
-    struct MainWindowViewModel : MainWindowViewModelT<MainWindowViewModel>
+    struct MainWindowViewModel : winrt::implements<MainWindowViewModel, winrt::Windows::UI::Xaml::Data::ICustomPropertyProvider, winrt::Windows::UI::Xaml::Data::INotifyPropertyChanged>
     {
         MainWindowViewModel();
 

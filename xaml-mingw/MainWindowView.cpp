@@ -26,7 +26,8 @@ namespace winrt::XamlMinGW::implementation
         Application::LoadComponent(*this, uri);
 
         auto viewModel = winrt::make<winrt::XamlMinGW::implementation::MainWindowViewModel>();
-        viewModel.UserName(L"MinGW");
+        auto viewModelImpl = winrt::get_self<MainWindowViewModel>(viewModel);
+        viewModelImpl->UserName(L"MinGW");
         DataContext(viewModel);
 
         auto btn2 = this->FindName(L"btn2").as<Button>();

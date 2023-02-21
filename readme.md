@@ -10,13 +10,6 @@ To stress test the new C++/WinRT MinGW support mostly, also it is fun.
 
 To build this, you'll need the following:
 
-- Visual Studio 2022 with the following workloads:\
-  Desktop Development with C++ \
-  Universal Windows Platform development \
-   \
-  We only use the MIDL 3.0 compiler `midl.exe` to generate `winmd` files, so if you know how to get it more easily, you can do that instead, and change `gen_winmd.cmd` accordingly. \
-  Or maybe someday we'll get winmd support in `widl` or other OSS IDL compiler, who knows.
-
 - C++/WinRT `cppwinrt.exe` in `$PATH`
 - A MinGW LLVM toolchain, GCC is untested
 

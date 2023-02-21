@@ -11,53 +11,36 @@ using namespace winrt::Windows::Foundation;
 using namespace winrt::Windows::UI::Xaml::Data;
 using namespace winrt::Windows::UI::Xaml::Interop;
 
-struct CustomPropertyMetaData
+namespace winrt::XamlMinGW::implementation
 {
-    bool CanRead;
-    bool CanWrite;
-    hstring Name;
-    TypeName Type;
-
-    std::function<IInspectable(IInspectable)> Getter;
-    std::function<void(IInspectable, IInspectable)> Setter;
-};
-
-struct CustomProperty : winrt::implements<CustomProperty, ICustomProperty> {  
-
-    CustomProperty(CustomPropertyMetaData metadata)
+    struct CustomPropertyMetaData
     {
-        m_metadata = metadata;
-    }
+        bool CanRead;
+        bool CanWrite;
+        hstring Name;
+        TypeName Type;
 
-    bool CanRead() { return m_metadata.CanRead; }
-    bool CanWrite() { return m_metadata.CanRead; }
-    hstring Name() { return m_metadata.Name; }
-    TypeName Type() {return m_metadata.Type; }
-    
-    IInspectable GetIndexedValue(IInspectable target, IInspectable index)
-    {
-        throw hresult_not_implemented();
-    }
-    IInspectable GetValue(IInspectable target)
-    {
-        if (!CanRead() || m_metadata.Getter == nullptr)
-        {
-            throw hresult_not_implemented();
-        }
+        std::function<IInspectable(IInspectable)> Getter;
+        std::function<void(IInspectable, IInspectable)> Setter;
+    };
 
-        return m_metadata.Getter(target);
-    }
-    void SetIndexedValue(IInspectable target, IInspectable value, IInspectable index) { throw hresult_not_implemented(); }
-    void SetValue(IInspectable target, IInspectable value)
-    {
-        if (!CanWrite() || m_metadata.Setter == nullptr)
-        {
-            throw hresult_not_implemented();
-        }
+    struct CustomProperty : winrt::implements<CustomProperty, ICustomProperty> {  
 
-        m_metadata.Setter(target, value);
-    }
+        CustomProperty(CustomPropertyMetaData metadata);
+        
+        bool CanRead();
+        bool CanWrite();
+        hstring Name();
+        TypeName Type();
+        
+        IInspectable GetIndexedValue(IInspectable target, IInspectable index);
+        IInspectable GetValue(IInspectable target);
+        
+        void SetIndexedValue(IInspectable target, IInspectable value, IInspectable index);
+        void SetValue(IInspectable target, IInspectable value);
+        
+        private:
+        CustomPropertyMetaData m_metadata;
+    };
 
-    private:
-    CustomPropertyMetaData m_metadata;
-};
+}

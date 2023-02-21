@@ -1,9 +1,12 @@
 #pragma once
-#include "XamlMinGW/MainWindowView.g.h"
+#include <winrt/base.h>
+#include <winrt/Windows.UI.Composition.h>
+#include <winrt/Windows.UI.Xaml.h>
+#include <winrt/Windows.UI.Xaml.Controls.h>
 
 namespace winrt::XamlMinGW::implementation
 {
-    struct MainWindowView : MainWindowViewT<MainWindowView>
+    struct MainWindowView : winrt::Windows::UI::Xaml::Controls::UserControlT<MainWindowView>
     {
         MainWindowView();
         void InitializeComponent();
