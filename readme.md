@@ -11,15 +11,19 @@ To stress test the new C++/WinRT MinGW support mostly, also it is fun.
 To build this, you'll need the following:
 
 - C++/WinRT `cppwinrt.exe` in `$PATH`
-- A MinGW LLVM toolchain, GCC is untested
+- A MinGW toolchain, LLVM/Clang 15 and GCC 12 from MSYS2 are tested.
 
 The best way to get a working toolchain is install the following in MSYS2:
 
 ```
+# CLANG64 Subsystem, with LLVM/Clang
 pacman -S mingw-w64-clang-x86_64-toolchain mingw-w64-clang-x86_64-cppwinrt
+
+# UCRT64 Subsystem, with GCC
+pacman -S mingw-w64-ucrt-x86_64-toolchain mingw-w64-ucrt-x86_64-cppwinrt
 ```
 
-With this, just build using the makefile provided.
+With these, just build using the makefile provided.
 
 # What works
 

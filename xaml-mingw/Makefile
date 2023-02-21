@@ -17,10 +17,10 @@ cppwinrt-headers:
 main.o: main.cpp cppwinrt-headers
 	${CXX} -c ${CXXFLAGS} ${INCLUDES} $< -o $@
 
-app.res: app.rc app.manifest
-	${WINDRES} app.rc -o app.res
+app.o: app.rc app.manifest
+	${WINDRES} app.rc -o app.o
 
-xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o SimpleCommand.o CustomProperty.o app.res
+xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o SimpleCommand.o CustomProperty.o app.o
 	${CXX} $^ ${LIBS} ${LDFLAGS} -o $@
 
 clean:
