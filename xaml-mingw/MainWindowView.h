@@ -10,7 +10,7 @@ namespace winrt::XamlMinGW::implementation
 {
     struct MainWindowView : UserControlT<MainWindowView>
     {
-        MainWindowView();
+        MainWindowView() = default;
         void InitializeComponent();
     };
 }

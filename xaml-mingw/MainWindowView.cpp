@@ -15,11 +15,6 @@ using namespace winrt::Windows::UI::Xaml::Controls;
 
 namespace winrt::XamlMinGW::implementation
 {
-    MainWindowView::MainWindowView()
-    {
-        InitializeComponent();
-    }
-
     void MainWindowView::InitializeComponent()
     {
         Uri uri(L"ms-appx:///MainWindowView.xaml");
