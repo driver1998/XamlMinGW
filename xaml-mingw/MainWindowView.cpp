@@ -25,7 +25,7 @@ namespace winrt::XamlMinGW::implementation
         Uri uri(L"ms-appx:///MainWindowView.xaml");
         Application::LoadComponent(*this, uri);
 
-        auto viewModel = winrt::make<winrt::XamlMinGW::implementation::MainWindowViewModel>();
+        auto viewModel = winrt::make<MainWindowViewModel>();
         auto viewModelImpl = winrt::get_self<MainWindowViewModel>(viewModel);
         viewModelImpl->UserName(L"MinGW");
         DataContext(viewModel);
@@ -33,7 +33,7 @@ namespace winrt::XamlMinGW::implementation
         auto btn2 = this->FindName(L"btn2").as<Button>();
         if (btn2)
         {
-            btn2.Click([](IInspectable const& sender, RoutedEventArgs const& args) -> IAsyncOperation<IInspectable> {
+            btn2.Click([](IInspectable const& sender, RoutedEventArgs const& args) -> winrt::fire_and_forget {
                 ContentDialog dialog;
                 dialog.Title(winrt::box_value(L"About"));
                 dialog.Content(winrt::box_value(L"MinGW XAML Islands Demo"));
@@ -43,7 +43,6 @@ namespace winrt::XamlMinGW::implementation
                 dialog.XamlRoot(btn.XamlRoot());
 
                 co_await dialog.ShowAsync();
-                co_return nullptr;
             });
         }
     }

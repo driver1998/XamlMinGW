@@ -3,9 +3,13 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Data.h>
 
+using namespace winrt::Windows::UI::Xaml::Data;
+using namespace winrt::Windows::UI::Xaml::Input;
+using namespace winrt::Windows::UI::Xaml::Interop;
+
 namespace winrt::XamlMinGW::implementation
 {
-    struct MainWindowViewModel : winrt::implements<MainWindowViewModel, winrt::Windows::UI::Xaml::Data::ICustomPropertyProvider, winrt::Windows::UI::Xaml::Data::INotifyPropertyChanged>
+    struct MainWindowViewModel : winrt::implements<MainWindowViewModel, ICustomPropertyProvider, INotifyPropertyChanged>
     {
         MainWindowViewModel();
 
@@ -13,19 +17,22 @@ namespace winrt::XamlMinGW::implementation
         void Message(hstring const& value);
         hstring UserName();
         void UserName(hstring const& value);
-        winrt::Windows::UI::Xaml::Input::ICommand GreetingCommand();
-        winrt::event_token PropertyChanged(winrt::Windows::UI::Xaml::Data::PropertyChangedEventHandler const& handler);
+        ICommand GreetingCommand();
+
+        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
         void PropertyChanged(winrt::event_token const& token) noexcept;
-        winrt::Windows::UI::Xaml::Data::ICustomProperty GetCustomProperty(hstring const& name);
-        winrt::Windows::UI::Xaml::Data::ICustomProperty GetIndexedProperty(hstring const& name, winrt::Windows::UI::Xaml::Interop::TypeName const& type);
+
+        ICustomProperty GetCustomProperty(hstring const& name);
+        ICustomProperty GetIndexedProperty(hstring const& name, TypeName const& type);
         hstring GetStringRepresentation();
-        winrt::Windows::UI::Xaml::Interop::TypeName Type();
+        TypeName Type();
 
         private:
         hstring m_message;
         hstring m_userName;
-        winrt::event<winrt::Windows::UI::Xaml::Data::PropertyChangedEventHandler> m_propertyChangedEvent;
-        winrt::Windows::UI::Xaml::Input::ICommand m_greetingCommand;
-        static std::map<hstring, winrt::Windows::UI::Xaml::Data::ICustomProperty> m_propertyMap;
+        ICommand m_greetingCommand;
+        winrt::event<PropertyChangedEventHandler> m_propertyChangedEvent;
+        
+        static std::map<hstring, ICustomProperty> m_propertyMap;
     };
 }
