@@ -5,8 +5,11 @@
 
 #include <functional>
 
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Xaml::Input;
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::UI::Xaml::Input;
+}
 
 namespace winrt::XamlMinGW::implementation
 {

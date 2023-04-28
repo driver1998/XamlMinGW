@@ -9,9 +9,12 @@
 #include "MainWindowView.h"
 #include "MainWindowViewModel.h"
 
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Xaml;
-using namespace winrt::Windows::UI::Xaml::Controls;
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::UI::Xaml;
+    using namespace winrt::Windows::UI::Xaml::Controls;
+}
 
 namespace winrt::XamlMinGW::implementation
 {
@@ -20,10 +23,10 @@ namespace winrt::XamlMinGW::implementation
         Uri uri(L"ms-appx:///MainWindowView.xaml");
         Application::LoadComponent(*this, uri);
 
-        auto viewModel = winrt::make<MainWindowViewModel>();
-        auto viewModelImpl = winrt::get_self<MainWindowViewModel>(viewModel);
-        viewModelImpl->UserName(L"MinGW");
-        DataContext(viewModel);
+        auto viewModel = winrt::make_self<MainWindowViewModel>();
+        viewModel->UserName(L"MinGW");
+        DataContext(viewModel.as<IInspectable>());
+        viewModel->GreetingCommand().Execute(nullptr);
 
         auto btn2 = this->FindName(L"btn2").as<Button>();
         if (btn2)

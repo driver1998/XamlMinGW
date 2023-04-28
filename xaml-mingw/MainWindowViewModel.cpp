@@ -5,10 +5,6 @@
 #include <cwchar>
 #include <string>
 
-using namespace winrt::Windows::UI::Xaml::Data;
-using namespace winrt::Windows::UI::Xaml::Input;
-using namespace winrt::Windows::UI::Xaml::Interop;
-
 namespace winrt::XamlMinGW::implementation
 {
     MainWindowViewModel::MainWindowViewModel()

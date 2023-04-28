@@ -3,9 +3,12 @@
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Data.h>
 
-using namespace winrt::Windows::UI::Xaml::Data;
-using namespace winrt::Windows::UI::Xaml::Input;
-using namespace winrt::Windows::UI::Xaml::Interop;
+namespace winrt
+{
+    using namespace winrt::Windows::UI::Xaml::Data;
+    using namespace winrt::Windows::UI::Xaml::Input;
+    using namespace winrt::Windows::UI::Xaml::Interop;
+}
 
 namespace winrt::XamlMinGW::implementation
 {
@@ -30,7 +33,7 @@ namespace winrt::XamlMinGW::implementation
         private:
         hstring m_message;
         hstring m_userName;
-        ICommand m_greetingCommand;
+        ICommand m_greetingCommand{ nullptr };
         winrt::event<PropertyChangedEventHandler> m_propertyChangedEvent;
         
         static std::map<hstring, ICustomProperty> m_propertyMap;

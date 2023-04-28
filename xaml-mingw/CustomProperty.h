@@ -6,11 +6,12 @@
 
 #include <functional>
 
-using namespace winrt;
-using namespace winrt::Windows::Foundation;
-using namespace winrt::Windows::UI::Xaml::Data;
-using namespace winrt::Windows::UI::Xaml::Interop;
-
+namespace winrt
+{
+    using namespace winrt::Windows::Foundation;
+    using namespace winrt::Windows::UI::Xaml::Data;
+    using namespace winrt::Windows::UI::Xaml::Interop;
+}
 namespace winrt::XamlMinGW::implementation
 {
     struct CustomPropertyMetaData
