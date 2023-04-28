@@ -5,9 +5,11 @@
 #include <winrt/Windows.UI.Xaml.h>
 #include <winrt/Windows.UI.Xaml.Controls.h>
 #include <winrt/Windows.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Windows.UI.Xaml.Input.h>
 
 #include "MainWindowView.h"
 #include "MainWindowViewModel.h"
+#include "NegativeDoubleConverter.h"
 
 namespace winrt
 {
@@ -20,6 +22,11 @@ namespace winrt::XamlMinGW::implementation
 {
     void MainWindowView::InitializeComponent()
     {
+        Resources().Insert(
+            winrt::box_value(L"NegativeDoubleConverter"), 
+            winrt::make<NegativeDoubleConverter>()
+        );
+
         Uri uri(L"ms-appx:///MainWindowView.xaml");
         Application::LoadComponent(*this, uri);
 

@@ -1,20 +1,43 @@
 <UserControl
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ScrollViewer>
-            <StackPanel Orientation="Vertical">
-                <TextBox Text="{Binding UserName, Mode=TwoWay}"/>
-                <TextBlock FontSize="{Binding ElementName=slider, Path=Value}" Text="{Binding Message}">
-                    <TextBlock.Foreground>
-                        <SolidColorBrush Color="{Binding ElementName=colorPicker, Path=Color}"/>
-                    </TextBlock.Foreground>
-                </TextBlock>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btn1" Command="{Binding GreetingCommand}">Say Hello</Button>
-                    <Button x:Name="btn2">About</Button>
-                </StackPanel>
-                <Slider x:Name="slider" Minimum="1" Maximum="100" Value="32"/>
-                <ColorPicker x:Name="colorPicker" Color="Blue"/>
+    <ScrollViewer Padding="8">
+        <StackPanel Orientation="Vertical">
+            <TextBox Text="{Binding UserName, Mode=TwoWay}" />
+            <TextBlock FontSize="{Binding ElementName=slider, Path=Value}" Text="{Binding Message}">
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="{Binding ElementName=colorPicker, Path=Color}" />
+                </TextBlock.Foreground>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="btn1" Command="{Binding GreetingCommand}">Say Hello</Button>
+                <Button x:Name="btn2">About</Button>
             </StackPanel>
-        </ScrollViewer>
+            <Slider x:Name="slider" Minimum="1" Maximum="100" Value="32" />
+            <TextBlock Padding="0,0,0,8">
+                Slider.Value:
+                <Run Text="{Binding ElementName=slider, Path=Value}"></Run>
+                <LineBreak />
+                NegativeDoubleConverter: 
+                <Run Text="{Binding ElementName=slider, Path=Value, Converter={StaticResource NegativeDoubleConverter}}"></Run>
+            </TextBlock>            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ColorPicker Grid.Column="0" x:Name="colorPicker" Color="Blue" Margin="0,0,8,0"/>
+                <ListView Grid.Column="1" ItemsSource="{Binding Items}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Padding="8">
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <TextBlock Text="{Binding Value}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

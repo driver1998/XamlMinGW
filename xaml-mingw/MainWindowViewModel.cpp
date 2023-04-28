@@ -15,6 +15,11 @@ namespace winrt::XamlMinGW::implementation
             str += this->UserName().c_str();
             this->Message(str.c_str());
         });
+
+        m_items = winrt::single_threaded_observable_vector<IInspectable>({
+            winrt::make<ListItem>(L"WinRT meets MinGW", L"it really works"),
+            winrt::make<ListItem>(L"FOSS Rocks", L"always have been"),
+        });
     }
     hstring MainWindowViewModel::Message()
     {
@@ -37,6 +42,10 @@ namespace winrt::XamlMinGW::implementation
     ICommand MainWindowViewModel::GreetingCommand()
     {
         return m_greetingCommand;
+    }
+    IObservableVector<IInspectable> MainWindowViewModel::Items()
+    {
+        return m_items;
     }
 
     /* INotifyPropertyChanged*/
@@ -141,6 +150,24 @@ namespace winrt::XamlMinGW::implementation
                     }
                 }
             )
-        }
+        },
+        {
+            L"Items",
+            winrt::make<CustomProperty>(
+                CustomPropertyMetaData {
+                    .CanRead = true,
+                    .CanWrite = false,
+                    .Name = L"Items",
+                    .Type = TypeName {
+                        .Name = L"Windows.Foundation.Collections.IObservableVector",
+                        .Kind = TypeKind::Metadata
+                    },
+                    .Getter = [](IInspectable obj) -> IInspectable
+                    { 
+                        return obj.as<MainWindowViewModel>()->Items();
+                    }
+                }
+            )
+        },
     };
 }

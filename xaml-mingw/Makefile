@@ -20,7 +20,7 @@ main.o: main.cpp cppwinrt-headers
 app.o: app.rc app.manifest
 	${WINDRES} app.rc -o app.o
 
-xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o SimpleCommand.o CustomProperty.o app.o
+xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o SimpleCommand.o NegativeDoubleConverter.o ListItem.o CustomProperty.o app.o
 	${CXX} $^ ${LIBS} ${LDFLAGS} -o $@
 
 clean:
