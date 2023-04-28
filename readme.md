@@ -2,6 +2,8 @@
 
 This is a demo of WinRT XAML Islands with MinGW toolchain.
 
+![demo](Images/demo.png)
+
 ## Why
 
 To stress test the new C++/WinRT MinGW support mostly, also it is fun.
@@ -28,6 +30,7 @@ With these, just build using the makefile provided.
 ## What works
 
 - XAML layout (load in **runtime** only)
+- `IValueConverter` (initialized in code-behind)
 - Data binding with `ICustomPropertyProvider` (see `MainWindowViewModel.cpp` on how to implement this, it sucks but eh)
 - `ICommand`
 - Setting events from code-behind
