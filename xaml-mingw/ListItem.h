@@ -1,39 +1,31 @@
 #pragma once
-#include <winrt/base.h>
+#include <vector>
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Data.h>
+#include <winrt/base.h>
 
-namespace winrt
-{
+
+#include "Property.hpp"
+
+namespace winrt {
     using namespace winrt::Windows::UI::Xaml::Data;
     using namespace winrt::Windows::UI::Xaml::Input;
     using namespace winrt::Windows::UI::Xaml::Interop;
-}
+} // namespace winrt
 
-namespace winrt::XamlMinGW::implementation
-{
-    struct ListItem : winrt::implements<ListItem, ICustomPropertyProvider, INotifyPropertyChanged>
-    {
-        ListItem(hstring const& name, hstring const& value);
+namespace winrt::XamlMinGW::implementation {
+    struct ListItem : winrt::implements<ListItem, ICustomPropertyProvider, INotifyPropertyChanged>,
+                      PropertyObject<ListItem> {
+        ListItem(hstring const &name, hstring const &value);
 
-        hstring Name();
-        void Name(hstring const& value);
-        hstring Value();
-        void Value(hstring const& value);
+        std::function<void(hstring const &name)> onPropertyChanged = [this](hstring const &name) {
+            PropertyChanged.event(*this, PropertyChangedEventArgs{name});
+        };
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Property<hstring> Name{L"Name", winrt::xaml_typename<hstring>(), onPropertyChanged};
+        Property<hstring> Value{L"Value", winrt::xaml_typename<hstring>(), onPropertyChanged};
 
-        ICustomProperty GetCustomProperty(hstring const& name);
-        ICustomProperty GetIndexedProperty(hstring const& name, TypeName const& type);
-        hstring GetStringRepresentation();
-        TypeName Type();
-
-        private:
-        hstring m_name;
-        hstring m_value;
-        winrt::event<PropertyChangedEventHandler> m_propertyChangedEvent;
-        
-        static std::map<hstring, ICustomProperty> m_propertyMap;
+        std::vector<IProperty *> PropertyList = {&Name, &Value};
+        Event<PropertyChangedEventHandler> PropertyChanged;
     };
-}
+} // namespace winrt::XamlMinGW::implementation

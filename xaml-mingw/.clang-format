@@ -1,0 +1,6 @@
+IndentWidth: 4
+AlwaysBreakTemplateDeclarations: true
+# AlignAfterOpenBracket: DontAlign
+ColumnLimit: 100
+NamespaceIndentation: All
+# BinPackParameters: false

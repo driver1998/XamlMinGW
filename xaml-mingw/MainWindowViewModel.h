@@ -1,47 +1,38 @@
 #pragma once
-#include <winrt/base.h>
-#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.UI.Xaml.Data.h>
+#include <winrt/base.h>
+
 
 #include "ListItem.h"
+#include "Property.hpp"
 
-namespace winrt
-{
+namespace winrt {
     using namespace winrt::Windows::Foundation::Collections;
     using namespace winrt::Windows::UI::Xaml::Data;
     using namespace winrt::Windows::UI::Xaml::Input;
     using namespace winrt::Windows::UI::Xaml::Interop;
-}
+} // namespace winrt
 
-namespace winrt::XamlMinGW::implementation
-{
-    struct MainWindowViewModel : winrt::implements<MainWindowViewModel, ICustomPropertyProvider, INotifyPropertyChanged>
-    {
+namespace winrt::XamlMinGW::implementation {
+    struct MainWindowViewModel
+        : winrt::implements<MainWindowViewModel, ICustomPropertyProvider, INotifyPropertyChanged>,
+          PropertyObject<MainWindowViewModel> {
         MainWindowViewModel();
 
-        hstring Message();
-        void Message(hstring const& value);
-        hstring UserName();
-        void UserName(hstring const& value);
-        ICommand GreetingCommand();
-        IObservableVector<IInspectable> Items();
+        std::function<void(hstring const &name)> onPropertyChanged = [this](hstring const &name) {
+            PropertyChanged.event(*this, PropertyChangedEventArgs{name});
+        };
 
-        winrt::event_token PropertyChanged(PropertyChangedEventHandler const& handler);
-        void PropertyChanged(winrt::event_token const& token) noexcept;
+        Property<hstring> Message{L"Message", winrt::xaml_typename<hstring>(), onPropertyChanged};
+        Property<hstring> UserName{L"UserName", winrt::xaml_typename<hstring>(), onPropertyChanged};
+        Property<ICommand> GreetingCommand{L"GreetingCommand", winrt::xaml_typename<ICommand>(),
+                                           onPropertyChanged};
+        Property<IObservableVector<IInspectable>> Items{
+            L"Items", winrt::xaml_typename<IObservableVector<IInspectable>>(), onPropertyChanged};
 
-        ICustomProperty GetCustomProperty(hstring const& name);
-        ICustomProperty GetIndexedProperty(hstring const& name, TypeName const& type);
-        hstring GetStringRepresentation();
-        TypeName Type();
-
-        private:
-        hstring m_message;
-        hstring m_userName;
-        ICommand m_greetingCommand{ nullptr };
-        winrt::event<PropertyChangedEventHandler> m_propertyChangedEvent;
-        IObservableVector<IInspectable> m_items{ nullptr };
-        
-        static std::map<hstring, ICustomProperty> m_propertyMap;
+        std::vector<IProperty *> PropertyList = {&Message, &UserName, &GreetingCommand, &Items};
+        Event<PropertyChangedEventHandler> PropertyChanged;
     };
-}
+} // namespace winrt::XamlMinGW::implementation

@@ -1,17 +1,19 @@
 CXX=c++
 WINDRES=windres
-CXXFLAGS=-std=c++20 -mcx16
+CXXFLAGS=-std=c++20 -mcx16 -O3
 INCLUDES=-Icppwinrt -Iinclude
 LIBS=-lole32 -loleaut32
 LDFLAGS=-mwindows -static
 
 all: xaml-mingw.exe
 
+HEADERS= Property.hpp
+
 cppwinrt-headers:
 	cppwinrt -pch . -input references/Windows.winmd -output cppwinrt
 	touch cppwinrt-headers
 
-%.o: %.cpp %.h cppwinrt-headers
+%.o: %.cpp %.h ${HEADERS} cppwinrt-headers
 	${CXX} -c ${CXXFLAGS} ${INCLUDES} $< -o $@
 
 main.o: main.cpp cppwinrt-headers
@@ -20,7 +22,7 @@ main.o: main.cpp cppwinrt-headers
 app.o: app.rc app.manifest
 	${WINDRES} app.rc -o app.o
 
-xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o SimpleCommand.o NegativeDoubleConverter.o ListItem.o CustomProperty.o app.o
+xaml-mingw.exe: main.o MainWindowView.o MainWindowViewModel.o SimpleCommand.o NegativeDoubleConverter.o ListItem.o app.o
 	${CXX} $^ ${LIBS} ${LDFLAGS} -o $@
 
 clean:
