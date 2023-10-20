@@ -31,7 +31,7 @@ With these, just build using the makefile provided.
 
 - XAML layout (load in **runtime** only)
 - `IValueConverter` (initialized in code-behind)
-- Data binding with `ICustomPropertyProvider` (see `MainWindowViewModel.cpp` on how to implement this, it sucks but eh)
+- Data binding with `ICustomPropertyProvider` (see `MainWindowViewModel.cpp` and `Property.hpp` on how to implement this, it sucks but eh)
 - `ICommand`
 - Setting events from code-behind
 
